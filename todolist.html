@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>To-do list</title>
+<link rel="stylesheet" href="sheet.css">
+<script type="text/JavaScript">
+let tasks = [];
+
+// Add task function
+function addtask() {
+    const taskInput = document.querySelector('input[type="text"]');
+    const prioritySelect = document.getElementById('prioritySelect');
+    const taskText = taskInput.value.trim();
+    const priority = prioritySelect.value;
+
+    if (taskText === "") {
+        alert("Please enter a task.");
+        return;
+    }
+
+    // Create task object
+    const task = {
+        text: taskText,
+        priority: priority,
+        completed: false
+    };
+
+    // Add the task to the tasks array
+    tasks.push(task);
+
+    // Update the task list UI
+    updateTaskList();
+
+    // Clear the input field
+    taskInput.value = '';
+}
+
+// Update task list UI
+function updateTaskList() {
+    const taskList = document.getElementById('tasklist');
+    taskList.innerHTML = '';
+
+    tasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        li.className = task.priority;
+        li.innerHTML = `
+            <input type="checkbox" ${task.completed ? 'checked' : ''} onclick="toggleCompletion(${index})">
+            <span>${task.text}</span>
+            <button onclick="deleteTask(${index})">Delete</button>
+        `;
+        taskList.appendChild(li);
+    });
+
+    // Display motivational message based on task count
+    displayMotivationalMessage();
+}
+
+// Toggle completion status of a task
+function toggleCompletion(index) {
+    tasks[index].completed = !tasks[index].completed;
+    updateTaskList();
+}
+
+// Delete a task
+function deleteTask(index) {
+    tasks.splice(index, 1);
+    updateTaskList();
+}
+
+// Display motivational message
+function displayMotivationalMessage() {
+    const motivationalMessage = document.getElementById('motivationalMessage');
+    const remainingTasks = tasks.filter(task => !task.completed).length;
+
+    if (remainingTasks === 0) {
+        motivationalMessage.innerHTML = "Great job! You've completed all tasks!";
+    } else {
+        motivationalMessage.innerHTML = `Keep going! You have ${remainingTasks} task${remainingTasks > 1 ? 's' : ''} left.`;
+    }
+}
+</script>
+</head>
+<body>
+<header class="heading">DYNAMIC TO-DO LIST</header>
+<div class="inputtask">
+<input type="text" placeholder="Enter new task...." autocomplete="off">
+<select id="prioritySelect">
+<option value="low">Low</option>
+<option value="medium">Medium</option>
+<option value="high">High</option>
+</select>
+<button id="add" onclick="addtask()">Add new task</button>
+</div>
+<div class="autocomplete-items" id="autocompleteList"></div>
+<ul id="tasklist">
+</ul>
+<div class="motivational-message" id="motivationalMessage"></div>
+<script type="JavaScript">
+
+</body>
+</html>

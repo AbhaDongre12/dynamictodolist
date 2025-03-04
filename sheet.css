@@ -1,0 +1,5 @@
+body{font-family:arial; background-color:beige}
+.app{width:80%;background-color:white;padding: 20px;text-align: center}
+button {padding: 10px 20px;background-color:red;border: none;color: white;font-size: 10px;cursor: pointer}
+#tasklist{color:purple;padding:20px}
+.motivational-message{color:red;line-spacing:10px;size:20px;font-style:italic}
